@@ -20,8 +20,7 @@ class node:
         self.huff = ''
 
 class pixel_node:
-    
-         #Define node construction method
+    #Define node construction method
     def __init__(self,right=None,left=None, parent=None, weight=0, code=None):
         self.left = left 
         self.right = right 
@@ -90,9 +89,6 @@ while len(nodes) > 1:
  
 printNodes(nodes[0])
 
-img = Image.open('tiger.bmp')
-g_img = img.convert('L')
-
 def pixel_frequency(pxl_lst):
     pxl_freq = {}
     for i in pxl_lst:
@@ -138,6 +134,21 @@ def huffman_encoding(img):
     encoding_table = {}
 
     for x in node_lst:
-        
+        curr_node = x
+        encoding_table.setdefault(x.code, "")
+        while(curr_node != huff_tree_head):
+            if curr_node.parent.left == curr_node:
+                encoding_table[x.code] = "1" + encoding_table[x.code]
+            else:
+                encoding_table[x.code] = "0" + encoding_table[x.code]
+            curr_node = curr_node.parent
 
-        
+    for key in encoding_table.keys():
+        print("Source Pixel: " + key + "\nCode Strength after encoding:" + encoding_table[key])
+    print("Encoding Table: ", encoding_table)
+
+
+img = Image.open('tiger.bmp')
+g_img = img.convert('L')
+huffman_encoding(g_img)
+print("ended")

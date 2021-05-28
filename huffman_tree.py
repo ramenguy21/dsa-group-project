@@ -147,6 +147,31 @@ def huffman_encoding(img):
         print("Source Pixel: " + key + "\nCode Strength after encoding:" + encoding_table[key])
     print("Encoding Table: ", encoding_table)
 
+def decoding(w, h, encoding_table, coding_res):
+    code_read_now = ''  # The currently read code
+    new_pixel =[] 
+    i = 0
+    while (i != coding_res.__len__()):
+                 #Read one later each time
+        code_read_now = code_read_now + coding_res[i]
+        for key in encoding_table.keys():
+                         #If the currently read code exists in the code table 
+            if code_read_now == encoding_table[key]: 
+                new_pixel. append(key) 
+                code_read_now = ' '
+                break
+        i +=1
+         #Construct a new image
+    decode_image = Image.new( 'L' ,(w,h)) 
+    k = 0 
+         # 
+    for i in range(w):
+        for j in range(h):
+            decode_image.putpixel((i,j),(int(new_pixel[k]))) 
+        k+=1
+    decode_image.save('decode.bmp') 
+    print("Decoding has been completed: the picture is stored as decode.bmp")
+
 
 img = Image.open('tiger.bmp')
 g_img = img.convert('L')
